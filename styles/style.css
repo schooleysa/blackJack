@@ -98,6 +98,7 @@ img {
     width: 100px;
     margin: 0;
     float: left;
+    opacity: 0;
 }
 
 .result {

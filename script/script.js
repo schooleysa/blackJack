@@ -44,7 +44,7 @@ twentyOne.dealCards = () => {
             let dC2 = cardsArray[0];
             cardsArray.shift();
 
-
+            document.querySelector(".playerButtons").style.opacity = "1";
             twentyOne.assignImage("playerCard1", pC1.image, pC1.value, pC1.suit);
             twentyOne.assignImage("playerCard2", pC2.image, pC2.value, pC2.suit);
             twentyOne.assignImage("dealerCard1", dC1.image, dC1.value, dC1.suit);
@@ -57,80 +57,91 @@ twentyOne.dealCards = () => {
             console.log(playerScore, dealerScore);
             twentyOne.checkFor21 = () => {
                 if (playerScore === 21) {
-                    twentyOne.results(`<h2>Black Jack!</h2><p>Your score: 21</p>`)
+                    console.log("Black Jack!  You win!")
                 }
             }
 
             twentyOne.checkFor21 ();
 
-            twentyOne.bust = () => {
-                twentyOne.results(`<h2>You Bust!</h2><p>Your Score: ${playerScore} </p>`)
+            twentyOne.checkForBust = () => {
+                if (playerScore > 21) {
+                    console.log(`You bust! Your score was ${playerScore}`);
+                }
             }
 
             twentyOne.hit = () => {
                 
                 if (cardsArray.length === 6) {
+                
                 let pC3 = cardsArray[0];
                 cardsArray.shift();
                 twentyOne.assignImage("playerCard3", pC3.image, pC3.value, pC3.suit);
                 playerScore = playerScore + twentyOne.getCardValue(pC3);
-                twentyOne.checkPlayerScore = () => {
-                    if (playerScore === 21) {
-                        twentyOne.checkFor21();
-                        console.log(playerScore);
-                    } else if (playerScore > 21 && pC1.value === 11) {
+                twentyOne.checkPlayerFor11 = () => {
+                    if (playerScore > 21 && pC1.value === 11) {
                         pC1.value = 1;
-                        playerScore = pC1.value + pC2.value + pC3.value;
-                        twentyOne.checkPlayerScore()
+                        playerScore = playerScore + pC1.value - 11;
                     } else if (playerScore > 21 && pC2.value === 11) {
                         pC2.value = 1;
-                        playerScore = pC1.value + pC2.value + pC3.value;
-                        twentyOne.checkPlayerScore()
+                        playerScore = playerScore + pC2.value - 11;
                     } else if (playerScore > 21 && pC3.value === 11) {
                         pC3.value = 1;
-                        playerScore = pC1.value + pC2.value + pC3.value;
-                        twentyOne.checkPlayerScore()
-                    } else if (playerScore > 21 && pC1.value !== 11 && pC2.value !== 11) {
-                        twentyOne.bust();
+                        playerScore = playerScore + pC3.value - 11;
+                    } else {
+                        twentyOne.checkFor21();
+                        twentyOne.checkForBust();
                     }
                 }
-                twentyOne.checkPlayerScore();
+                twentyOne.checkPlayerFor11();
+                twentyOne.checkFor21();
+                twentyOne.checkForBust();
 
             } else if (cardsArray.length === 5) {
                 let pC4 = cardsArray[0];
                 cardsArray.shift();
-                twentyOne.assignImage("playerCard4", pC4.image, pC4.value, pC4.suit);
-                playerScore = playerScore + twentyOne.getCardValue(pC4);
-                twentyOne.checkPlayerScore2 = () => {
-                    if (playerScore === 21) {
-                        twentyOne.checkFor21()
-                    } else if (playerScore > 21 && pC4.value === 11) {
+                twentyOne.checkPlayerFor11Two = () => {
+                    if (playerScore > 21 && pC1.value === 11) {
+                        pC1.value = 1;
+                        playerScore = playerScore + pC1.value - 11;
+                    } else if (playerScore > 21 && pC2.value === 11) {
+                        pC2.value = 1;
+                        playerScore = playerScore + pC2.value - 11;
+                    }
+                    else if (playerScore > 21 && pC4.value === 11) {
                         pC4.value = 1;
-                        playerScore = playerScore + pC4.value;
-                        twentyOne.checkPlayerScore2()
-                    } else if (playerScore > 21 && pC4.value !== 11) {
-                        twentyOne.bust();
+                        playerScore = playerScore + pC4.value - 11;
+                        twentyOne.checkFor21();
+                        twentyOne.checkForBust();
+                    } else {
+                        twentyOne.checkFor21();
+                        twentyOne.checkForBust();
                     }
                 }
-                twentyOne.checkPlayerScore2();
-                
+                playerScore = playerScore + twentyOne.getCardValue(pC4);
+                twentyOne.assignImage("playerCard4", pC4.image, pC4.value, pC4.suit);
+                twentyOne.checkPlayerFor11Two();
+                twentyOne.checkFor21();
+                twentyOne.checkForBust();
+                console.log(cardsArray);
+
             } else if (cardsArray.length === 4) {
                 let pC5 = cardsArray[0];
                 cardsArray.shift();
-                twentyOne.assignImage("playerCard5", pC5.image, pC5.value, pC5.suit);
-                playerScore = playerScore + twentyOne.getCardValue(pC5);
-                twentyOne.checkPlayerScore3 = () => {
-                    if (playerScore === 21) {
-                        twentyOne.checkFor21();
-                    } else if (playerScore > 21 && pC5.value === 11) {
+                twentyOne.checkPlayerFor11Three = () => {
+                    if (playerScore > 21 && pC5.value === 11) {
                         pC5.value = 1;
-                        playerScore = playerScore + pC5.value;
-                        twentyOne.checkPlayerScore3()
-                    } else if (playerScore > 21 && pC5.value !== 11) {
-                        twentyOne.bust();
+                        playerScore = playerScore + pC5.value - 11;
+                    } else {
+                        twentyOne.checkFor21();
+                        twentyOne.checkForBust();
                     }
+                playerScore = playerScore + twentyOne.getCardValue(pC5);    
+                twentyOne.assignImage("playerCard5", pC5.image, pC5.value, pC5.suit);
+                twentyOne.checkPlayerFor11Three();
+                twentyOne.checkFor21();
+                twentyOne.checkForBust();
+                console.log(cardsArray);
                 }
-                twentyOne.checkPlayerScore3();
                 }
             }
             
@@ -138,9 +149,8 @@ twentyOne.dealCards = () => {
             
             twentyOne.stand = () => {
                 twentyOne.assignImage("dealerCard2", dC2.image, dC2.value, dC2.suit);
-                    if (dealerScore > playerScore) {
-                    console.log("dealer wins")
-                } else if (dealerScore < 17) {
+                
+                if (dealerScore < 17) {
                     let dC3 = cardsArray[0]
                     cardsArray.shift;
                     twentyOne.assignImage("dealerCard3", dC3.image, dC3.value, dC3.suit);
