@@ -26,8 +26,8 @@ img {
 }
 
 .backDeck {
-    width: 215px;
-    height: 300px;
+    width: 82%;
+    height: auto;
     margin-top: 5px;
     margin-right: 25px;
     
@@ -38,14 +38,7 @@ img {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    flex-wrap: wrap;
-}
-
-.cardsToDeal{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: nowrap;
 }
 
 .dealerCards {
@@ -104,9 +97,18 @@ img {
 .result {
     font-family: 'Kiwi Maru', serif;
     color: rgb(228, 228, 228);
-    margin: 25px;
+    padding: 50px;
+    padding-top: 20px;
     position: fixed;
+    width: 500px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    margin-top: -125px; 
+    margin-left: -250px;
     z-index: 1;
+    text-align: center;
     background: rgb(142,28,56);
     background: radial-gradient(circle, rgba(142,28,56,1) 0%, rgba(0,123,147,1) 100%);
+    border: 2px rgb(228, 228, 228) solid;
 }
