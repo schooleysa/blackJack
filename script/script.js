@@ -30,7 +30,7 @@ twentyOne.assignImage = (imgId, imgUrl, imgValue, imgSuit) => {
 twentyOne.reset = () => {
     resultDiv.removeEventListener("click", twentyOne.reset)
     document.getElementById("hit").removeEventListener("click", twentyOne.hit)
-
+    document.getElementById("stand").removeEventListener("click", twentyOne.stand)
     document.querySelector(".result").innerHTML = "";
     document.querySelector(".result").classList.remove("result");
     let idArray = ["playerCard1", "playerCard2", "playerCard3", "playerCard4", "playerCard5", "dealerCard1", "dealerCard2", "dealerCard3"];
