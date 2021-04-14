@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 <body>
-    <main>
-        <section class="gameBoard" id="gameBoard">
+    <main .wrapper>
             <div class="topBoard">
                 <div class="dealerCards">
                     <div class="dealerCard" id="dealerCard1"></div>
@@ -22,6 +21,18 @@
                 <div class="cardsToDeal">
                          <img class="backDeck" src="./assets/cards.png" alt="Deck of Cards">
                  </div>
+            </div>
+            <div class="instructions">
+                <h3>Playable Black Jack built on vanilla JS and <a href="https://deckofcardsapi.com">deckofcardsapi.com</a></h3>
+                    <p>Instructions:</p>
+                    <p>The total value of cards closest to 21 without going over (bust) wins</p>
+                    <p>Aces are worth eleven, unless they would cause bust, then they are worth one</p>
+                    <p>Hit to get another card, stand for dealers turn</p>
+                    <p>Dealer must stand if their score is over 17 and must hit once if score is below 17</p>
+                    <p>Click Deck to get started!</p>
+            </div>
+            <div class="empty">
+
             </div>
                 <div class="player"></div>
                         <div class="playerCards">
@@ -41,7 +52,6 @@
                         </div>
                 </div>
             </div>
-        </section>
     </main>
     <script src="./script/script.js"></script>
 </body>

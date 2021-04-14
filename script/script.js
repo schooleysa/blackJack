@@ -12,29 +12,40 @@ twentyOne.getCardValue = (card) => {
     return card.value
 }
 
+const resultDiv = document.querySelector(".empty");
+
+twentyOne.fixInstruction =  () => {
+    twentyOne.innerInstruction = () => {document.querySelector(".instructions").style.display = "none"}
+    document.querySelector(".instructions").addEventListener("click", twentyOne.innerInstruction)
+};
+
 // select img area and assign the src url and alt text
 twentyOne.assignImage = (imgId, imgUrl, imgValue, imgSuit) => {
+    console.log('blegh')
     let image = document.getElementById(`${imgId}`)
     image.innerHTML = `<img src = ${imgUrl} alt = ${imgValue} of ${imgSuit}>`
 }
 
-// twentyOne.reset = () => {
-//     console.log("resetfuckshit")
-//     document.querySelector(".result").innerHTML = "";
-//     document.querySelector(".result").classList.remove("result");
-//     let idArray = ["playerCard1", "playerCard2", "playerCard3", "playerCard4", "playerCard5", "dealerCard1", "dealerCard2", "dealerCard3"];
-//     idArray.forEach(resetId => 
-//         document.getElementById(resetId).innerHTML = ""
-//     );
-//     document.querySelector(".playerButtons").style.opacity = "0";
-//     } 
+
+twentyOne.reset = () => {
+    resultDiv.removeEventListener("click", twentyOne.reset)
+    document.getElementById("hit").removeEventListener("click", twentyOne.hit)
+
+    document.querySelector(".result").innerHTML = "";
+    document.querySelector(".result").classList.remove("result");
+    let idArray = ["playerCard1", "playerCard2", "playerCard3", "playerCard4", "playerCard5", "dealerCard1", "dealerCard2", "dealerCard3"];
+    idArray.forEach(resetId => 
+        document.getElementById(resetId).innerHTML = ""
+    );
+    document.querySelector(".playerButtons").style.opacity = "0";
+} 
 
 twentyOne.results = (resultText) => {
-    let resultDiv = document.createElement("div");
+    setTimeout( () => {
     resultDiv.classList = "result";
     resultDiv.innerHTML = resultText;
     document.body.appendChild(resultDiv);
-    window.addEventListener("click", twentyOne.reset)
+    resultDiv.addEventListener("click", twentyOne.reset)}, 500)
 }
 
 twentyOne.dealCards = () => {
@@ -52,6 +63,7 @@ twentyOne.dealCards = () => {
             cardsArray.shift();
             let dC2 = cardsArray[0];
             cardsArray.shift();
+            console.log(cardsArray.length);
 
             document.querySelector(".playerButtons").style.opacity = "1";
             twentyOne.assignImage("playerCard1", pC1.image, pC1.value, pC1.suit);
@@ -63,10 +75,9 @@ twentyOne.dealCards = () => {
             let playerScore = twentyOne.getCardValue(pC1) + twentyOne.getCardValue(pC2);
             let dealerScore = twentyOne.getCardValue(dC1) + twentyOne.getCardValue(dC2);
             
-            console.log(playerScore, dealerScore);
             twentyOne.checkFor21 = () => {
                 if (playerScore === 21) {
-                    twentyOne.results(`<h2>Black Jack! You Win</h2><p>Player Score: ${playerScore}</p>`);
+                    twentyOne.results(`<h2>Black Jack! You Win</h2><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                 }
             }
 
@@ -74,14 +85,14 @@ twentyOne.dealCards = () => {
 
             twentyOne.checkForBust = () => {
                 if (playerScore > 21) {
-                    twentyOne.results(`<h2>Bust! You Lose</h2><p>Player Score: ${playerScore}</p>`);
+                    twentyOne.results(`<h2>Bust! You Lose</h2><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                 }
             }
 
             twentyOne.hit = () => {
-                
+                console.log(cardsArray.length);
                 if (cardsArray.length === 6) {
-                
+                console.log(6);
                 let pC3 = cardsArray[0];
                 cardsArray.shift();
                 twentyOne.assignImage("playerCard3", pC3.image, pC3.value, pC3.suit);
@@ -106,6 +117,7 @@ twentyOne.dealCards = () => {
                 twentyOne.checkForBust();
 
             } else if (cardsArray.length === 5) {
+                console.log(5);
                 let pC4 = cardsArray[0];
                 cardsArray.shift();
                 twentyOne.checkPlayerFor11Two = () => {
@@ -131,53 +143,51 @@ twentyOne.dealCards = () => {
                 twentyOne.checkPlayerFor11Two();
                 twentyOne.checkFor21();
                 twentyOne.checkForBust();
-                console.log(cardsArray);
 
             } else if (cardsArray.length === 4) {
+                console.log(4);
                 let pC5 = cardsArray[0];
                 cardsArray.shift();
+                playerScore = playerScore + twentyOne.getCardValue(pC5);
+                twentyOne.assignImage("playerCard5", pC5.image, pC5.value, pC5.suit);
                 twentyOne.checkPlayerFor11Three = () => {
-                    if (playerScore > 21 && pC5.value === 11) {
+                    if (playerScore > 21 && twentyOne.getCardValue(pC5) === 11) {
                         pC5.value = 1;
                         playerScore = playerScore + pC5.value - 11;
                     } else {
                         twentyOne.checkFor21();
                         twentyOne.checkForBust();
                     }
-                playerScore = playerScore + twentyOne.getCardValue(pC5);    
-                twentyOne.assignImage("playerCard5", pC5.image, pC5.value, pC5.suit);
+                }
                 twentyOne.checkPlayerFor11Three();
                 twentyOne.checkFor21();
                 twentyOne.checkForBust();
-                console.log(cardsArray);
-                }
                 }
             }
-            
+        
             document.getElementById("hit").addEventListener("click", twentyOne.hit)
             
             twentyOne.stand = () => {
                 twentyOne.assignImage("dealerCard2", dC2.image, dC2.value, dC2.suit);
                 twentyOne.checkDealerScore2 = () => {
                     if (dealerScore > playerScore && dealerScore < 22) { 
-                        twentyOne.results(`<h2>Dealer Wins!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Dealer Wins!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore === 21) {
-                        twentyOne.results(`<h2>Dealer Black Jack! You Lose</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Dealer Black Jack! You Lose</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore > 21) {
-                        twentyOne.results(`<h2>Dealer Bust! You Win</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Dealer Bust! You Win</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore > 16 && playerScore > dealerScore) {
-                        twentyOne.results(`<h2>You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore < playerScore) {
-                        twentyOne.results(`<h2>You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore === playerScore){
-                        twentyOne.results(`<h2>Tie!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Tie!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     }
                 }
                 twentyOne.dealerHit = () => {
                     let dC3 = cardsArray[0]
                     cardsArray.shift;
                     dealerScore = dealerScore + twentyOne.getCardValue(dC3);
-                    console.log(dealerScore)
                     twentyOne.assignImage("dealerCard3", dC3.image, dC3.value, dC3.suit);
                     if (dealerScore > 21 && dC1.value === 11) {
                         dC1.value = 1;
@@ -200,15 +210,15 @@ twentyOne.dealCards = () => {
                         dealerScore = 12
                         twentyOne.stand();
                     } else if (dealerScore > playerScore && dealerScore < 22) { 
-                        twentyOne.results(`<h2>You Lose!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>You Lose!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore === 21) {
-                        twentyOne.results(`<h2>Dealer Black Jack! You Lose!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Dealer Black Jack! You Lose!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore > 21) {
-                        twentyOne.results(`<h2>Dealer Buse! You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Dealer Bust! You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore > 16 && playerScore > dealerScore) {
-                        twentyOne.results(`<h2>You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>You Win!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     } else if (dealerScore === playerScore){
-                        twentyOne.results(`<h2>Tie!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p>`);
+                        twentyOne.results(`<h2>Tie!</h2><p>Dealer Score: ${dealerScore}</p><p>Player Score: ${playerScore}</p><p>Click to Reset</p>`);
                     }else {
                         twentyOne.dealerHit();
                     }
@@ -222,6 +232,7 @@ twentyOne.dealCards = () => {
 
 twentyOne.init = () => {
     document.querySelector(".cardsToDeal").addEventListener("click", twentyOne.dealCards)
+    twentyOne.fixInstruction();
 };
 
 twentyOne.init();
