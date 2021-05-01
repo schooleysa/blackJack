@@ -21,7 +21,6 @@ twentyOne.fixInstruction =  () => {
 
 // select img area and assign the src url and alt text
 twentyOne.assignImage = (imgId, imgUrl, imgValue, imgSuit) => {
-    console.log('blegh')
     let image = document.getElementById(`${imgId}`)
     image.innerHTML = `<img src = ${imgUrl} alt = ${imgValue} of ${imgSuit}>`
 }
@@ -63,7 +62,6 @@ twentyOne.dealCards = () => {
             cardsArray.shift();
             let dC2 = cardsArray[0];
             cardsArray.shift();
-            console.log(cardsArray.length);
 
             document.querySelector(".playerButtons").style.opacity = "1";
             twentyOne.assignImage("playerCard1", pC1.image, pC1.value, pC1.suit);
@@ -90,9 +88,7 @@ twentyOne.dealCards = () => {
             }
 
             twentyOne.hit = () => {
-                console.log(cardsArray.length);
                 if (cardsArray.length === 6) {
-                console.log(6);
                 let pC3 = cardsArray[0];
                 cardsArray.shift();
                 twentyOne.assignImage("playerCard3", pC3.image, pC3.value, pC3.suit);
@@ -117,7 +113,6 @@ twentyOne.dealCards = () => {
                 twentyOne.checkForBust();
 
             } else if (cardsArray.length === 5) {
-                console.log(5);
                 let pC4 = cardsArray[0];
                 cardsArray.shift();
                 twentyOne.checkPlayerFor11Two = () => {
@@ -145,7 +140,6 @@ twentyOne.dealCards = () => {
                 twentyOne.checkForBust();
 
             } else if (cardsArray.length === 4) {
-                console.log(4);
                 let pC5 = cardsArray[0];
                 cardsArray.shift();
                 playerScore = playerScore + twentyOne.getCardValue(pC5);
