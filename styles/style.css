@@ -156,18 +156,32 @@ img {
 }
 
 @media (max-width: 550px) {
+
+    .instructions {
+        width: 400px;
+        height: 425px;
+        margin-top: -200px; 
+        margin-left: -200px;
+        font-size: 1rem;
+    }
+
     .playerCards {
         margin-top: 100px;
     }
 }
 
 @media (max-width: 550px) {
+
     .option{
         width: 60px;
         height: 60px;
         font-size: 0.8rem;
         text-align: center;
         margin: 5px;
+    }
+
+    .result {
+        font-size: 1rem;
     }
 }
 
@@ -184,5 +198,15 @@ img {
 
     #hit {
         margin-top: 5px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .instructions {
+        width: 300px;
+        height: 450px;
+        margin-left: -150px;
+        font-size: 0.9rem;
     }
 }
